@@ -1,0 +1,20 @@
+/* my-robust-app-frontend/src/components/Greeting.css */
+.greeting-card {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.greeting-card h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.greeting-card p {
+  color: #555;
+  font-style: italic;
+}
