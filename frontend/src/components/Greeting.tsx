@@ -9,8 +9,8 @@ interface GreetingProps {
 const Greeting: React.FC<GreetingProps> = ({ name }) => {
   return (
     <div className="greeting-card">
-      <h2>Hello, {name || 'Guest'}!</h2>
-      <p>Hope you're having a wonderful day!</p>
+      <h2>OFERTA OFERTA {name || 'memis'}!</h2>
+      <p>Dark pepito inc</p>
     </div>
   );
 };

@@ -14,7 +14,7 @@ export class MessageService {
   getHelloMessage(): Message {
     return {
       id: 1,
-      content: 'Hello from NestJS Backend (TypeScript)!',
+      content: 'Hello from NestJS PEPIZ (TypeScript)!',
       timestamp: new Date().toISOString(),
       source: 'NestJS'
     };

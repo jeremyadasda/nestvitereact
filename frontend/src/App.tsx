@@ -1,7 +1,7 @@
 // my-robust-app-frontend/src/App.tsx
 
 import React, { useState, useEffect } from 'react';
-import './App.css'; // Assuming you'll create this CSS file
+//import './App.css'; // Assuming you'll create this CSS file
 import Greeting from './components/Greeting';
 
 // Define an interface for the message data we expect from the backend
@@ -38,26 +38,33 @@ function App() {
   }, []); // Empty dependency array means this runs once on component mount
 
   return (
-    <>
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to My Robust React App!</h1>
-        <p>This frontend is built with React and TypeScript.</p>
-        {loading && <p>Loading message from backend...</p>}
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        {backendMessage && (
-          <p>
-            <strong>Backend Message:</strong> {backendMessage.content} (Source: {backendMessage.source})
-          </p>
-        )}
-      </header>
-
-      <Greeting name="Developer" />
-      <Greeting name="TypeScript Fan" />
-      <Greeting />
-    </div>
-    </>
+  <>
+  
+  <div className="App flex flex-col items-center justify-center p-10">
+    <header className="App-header">
+      <h1>ZEROUNO LANDING</h1>
+      
+      {loading && <p>Loading message from backend...</p>}
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {backendMessage && (
+        <p className="text-blue-600">
+          <strong>Backend :</strong> {backendMessage.content} (Source: {backendMessage.source})
+        </p>
+      )}
+    </header>
+    
+    <Greeting name="Dark" />
+    <Greeting name="peponis" />
+    <Greeting />
+  </div>
+  
+    
+    
+        
+      
+</>   
   );
+  
 }
 
 export default App;
