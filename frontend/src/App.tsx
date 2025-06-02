@@ -1,6 +1,5 @@
 // my-robust-app-frontend/src/App.tsx
-
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 //import './App.css'; // Assuming you'll create this CSS file
 import Greeting from './components/Greeting';
 
@@ -39,28 +38,33 @@ function App() {
 
   return (
   <>
-  
-  <div className="App flex flex-col items-center justify-center p-10">
-    <header className="App-header">
-      <h1>ZEROUNO LANDING</h1>
-      
-      {loading && <p>Loading message from backend...</p>}
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      {backendMessage && (
-        <p className="text-blue-600">
-          <strong>Backend :</strong> {backendMessage.content} (Source: {backendMessage.source})
-        </p>
-      )}
-    </header>
+  <div className="min-h-screen items-center flex flex-col">
+  <header className="App-header py-10">
+    <h1>ZEROUNO LANDING</h1>
     
-    <Greeting name="Dark" />
-    <Greeting name="peponis" />
-    <Greeting />
+    {loading && <p>Loading message from backend...</p>}
+    {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+    {backendMessage && (
+      <p className="text-blue-600 py-5">
+        <strong>Backend :</strong> {backendMessage.content} (Source: {backendMessage.source})
+      </p>
+    )}
+  </header>
+  <div className="App flex flex-col items-center justify-center flex-1">
+    
+    <div className='py-5'>
+      <Greeting name="Aplicaciones WEB" />
+      <Greeting name="Sistemas en la Nube AWS y Google" />
+      <Greeting name="Landing Page LOW COST" />
+    </div>
+    
   </div>
   
+  <footer className="App-footer text-center py-5">
+    <p>Powered by ZEROUNO</p>
+  </footer>
     
-    
-        
+  </div>
       
 </>   
   );
