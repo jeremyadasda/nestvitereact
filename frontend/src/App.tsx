@@ -39,16 +39,24 @@ function App() {
   return (
   <>
   <div className="min-h-screen items-center flex flex-col">
-  <header className="App-header py-10">
-    <h1>ZEROUNO LANDING</h1>
+  <header className="App-header py-10 h-[33vh] flex items-center justify-center">
+    <div className='mx-auto'>
+      <h1 className="text-center text-[clamp(4.7rem,8vw,7rem)]">ZEROUNO</h1>
+      <div className="flex justify-center items-center gap-2">
+        <h2 className="text-center text-[clamp(1.8rem,3vw,2rem)] inline-block">SOLUCIONES</h2>
+        <h2 className="text-center text-[clamp(1.8rem,3vw,2rem)] inline-block">INFORMATICAS</h2>
+      </div>
+      {loading && <p>Loading message from backend...</p>}
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {backendMessage && (
+        <p className="text-blue-600 py-5">
+          <strong>Backend :</strong> {backendMessage.content} (Source: {backendMessage.source})
+        </p>
+      )}
+    </div>
     
-    {loading && <p>Loading message from backend...</p>}
-    {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-    {backendMessage && (
-      <p className="text-blue-600 py-5">
-        <strong>Backend :</strong> {backendMessage.content} (Source: {backendMessage.source})
-      </p>
-    )}
+    
+    
   </header>
   <div className="App flex flex-col items-center justify-center flex-1">
     
