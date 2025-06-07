@@ -7,25 +7,24 @@ import Greeting from './components/Greeting';
 interface BackendMessage {
   id: number;
   content: string;
-  timestamp: string;
-  source: string;
 }
 
 function App() {
-  const [backendMessage, setBackendMessage] = useState<BackendMessage | null>(null);
+  const [messages, setMessages] = useState<BackendMessage[]>([]);
+  const [current, setCurrent] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchMessage = async () => {
+    const fetchMessages = async () => {
       try {
-        // This call will be proxied by Vite to http://localhost:3000/api/message
-        const response = await fetch('/api/message'); 
+        // Fetch message from your backend endpoint that reads from Prisma
+        const response = await fetch('/api/message'); // <-- updated endpoint
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data: BackendMessage = await response.json();
-        setBackendMessage(data);
+        const data: BackendMessage[] = await response.json(); // <-- expect array
+        setMessages(data);
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -33,13 +32,23 @@ function App() {
       }
     };
 
-    fetchMessage();
-  }, []); // Empty dependency array means this runs once on component mount
+    fetchMessages();
+  }, []);
+
+  
+useEffect(() => {
+    if (messages.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % messages.length);
+    }, 3000); // 1000ms = 1 second
+    return () => clearInterval(interval);
+  }, [messages]);
+  
 
   return (
   <>
   <div className="min-h-screen items-center flex flex-col">
-  <header className="App-header py-10 h-[33vh] flex items-center justify-center">
+  <header className="App-header py-10 h-[40vh] flex items-end justify-center">
     <div className='mx-auto'>
       <h1 className="text-center text-[clamp(4.7rem,8vw,7rem)]">ZEROUNO</h1>
       <div className="flex justify-center items-center gap-2">
@@ -48,11 +57,14 @@ function App() {
       </div>
       {loading && <p>Loading message from backend...</p>}
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      {backendMessage && (
-        <p className="text-blue-600 py-5">
-          <strong>Backend :</strong> {backendMessage.content} (Source: {backendMessage.source})
-        </p>
-      )}
+      {messages.length > 0 && (
+              <div className="flex flex-col items-center py-5">
+                <p className="text-blue-600 text-center">
+                  <strong>Backend :</strong> {messages[current].content}
+                </p>
+                
+              </div>
+            )}
     </div>
     
     
@@ -60,10 +72,13 @@ function App() {
   </header>
   <div className="App flex flex-col items-center justify-center flex-1">
     
-    <div className='py-5'>
+    <div className='my-0'>
       <Greeting name="Aplicaciones WEB" />
       <Greeting name="Sistemas en la Nube AWS y Google" />
       <Greeting name="Landing Page LOW COST" />
+      <Greeting name="Aplicaciones Moviles" />
+      <Greeting name="" />
+
     </div>
     
   </div>

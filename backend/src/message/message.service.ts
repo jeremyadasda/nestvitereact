@@ -1,46 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { Message } from '@prisma/client';
 
 // Define an interface for the message data structure
-interface Message {
-  id: number;
-  content: string;
-  timestamp: string;
-  source: string;
-}
 
 @Injectable()
 export class MessageService {
   // This method simulates fetching a message from a database or external source
-  private messages = [
-    {
-      id: 1,
-      content: '¡Bienvenido a ZEROUNO!',
-      timestamp: new Date().toISOString(),
-      source: 'backend',
-    },
-    {
-      id: 2,
-      content: 'Soluciones informáticas a tu medida.',
-      timestamp: new Date().toISOString(),
-      source: 'backend',
-    },
-    {
-      id: 3,
-      content: 'Desarrollamos tu landing page.',
-      timestamp: new Date().toISOString(),
-      source: 'backend',
-    },
-    {
-      id: 4,
-      content: 'Consultoría en la nube AWS y Google.',
-      timestamp: new Date().toISOString(),
-      source: 'backend',
-    },
-  ];
-  getHelloMessage(): Message {
-    const randomIndex = Math.floor(Math.random() * this.messages.length);
-    // Update timestamp for freshness
-    const message = { ...this.messages[randomIndex], timestamp: new Date().toISOString() };
-    return message;
+  //PRISMA
+  constructor(private prisma: PrismaService) {} // Inject PrismaService
+
+  async getAllMessages(): Promise<Message[]> {
+    return this.prisma.message.findMany();
   }
+
+  async getHelloMessage(): Promise<Message | null> {
+    const messages = await this.prisma.message.findMany();
+    if (messages.length === 0) return null;
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    return messages[randomIndex];
+  }
+  //PRISMA
 }
