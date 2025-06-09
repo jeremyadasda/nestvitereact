@@ -49,8 +49,8 @@ useEffect(() => {
   <>
   <div className="min-h-screen items-center flex flex-col">
   <header className="App-header py-10 h-[40vh] flex items-end justify-center">
-    <div className='mx-auto'>
-      <h1 className="text-center text-[clamp(4.7rem,8vw,7rem)]">ZEROUNO</h1>
+    <div className='mx-auto w-full max-w-4xl'>
+      <div className="text-center text-[clamp(4.7rem,8vw,7rem)] ">ZEROUNO</div>
       <div className="flex justify-center items-center gap-2">
         <h2 className="text-center text-[clamp(1.8rem,3vw,2rem)] inline-block">SOLUCIONES</h2>
         <h2 className="text-center text-[clamp(1.8rem,3vw,2rem)] inline-block">INFORMATICAS</h2>
@@ -59,7 +59,7 @@ useEffect(() => {
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       {messages.length > 0 && (
               <div className="flex flex-col items-center py-5">
-                <p className="text-blue-600 text-center">
+                <p className="text-blue-600 text-center select-none">
                   <strong>Backend :</strong> {messages[current].content}
                 </p>
                 
@@ -70,18 +70,23 @@ useEffect(() => {
     
     
   </header>
-  <div className="App flex flex-col items-center justify-center flex-1">
-    
-    <div className='my-0'>
-      <Greeting name="Aplicaciones WEB" />
-      <Greeting name="Sistemas en la Nube AWS y Google" />
-      <Greeting name="Landing Page LOW COST" />
-      <Greeting name="Aplicaciones Moviles" />
-      <Greeting name="" />
+  <main>
+    <div className="mx-auto w-full max-w-4xl">
+      <div className="App flex flex-col items-center justify-center flex-1">
+      
+      <div className='my-0 w-full'>
+        <Greeting name="Aplicaciones WEB" />
+        <Greeting name="Sistemas en la Nube AWS y Google" />
+        <Greeting name="Landing Page LOW COST" />
+        <Greeting name="Aplicaciones Moviles" />
+        <Greeting name="Automatizacion con Selenium" />
 
+      </div>
+      
     </div>
-    
   </div>
+  </main>
+  
   
   <footer className="App-footer text-center py-5">
     <p>Powered by ZEROUNO</p>

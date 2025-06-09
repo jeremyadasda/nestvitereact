@@ -8,7 +8,7 @@ interface GreetingProps {
 
 const Greeting: React.FC<GreetingProps> = ({ name }) => {
   return (
-    <div className="greeting-card">
+    <div className="greeting-card w-full cursor-pointer select-none">
       <h2>DESARROLLO DE {name || 'Soluciones!'} !</h2>
       <p>Registrate para saber mas</p>
     </div>
