@@ -1,5 +1,6 @@
 // my-robust-app-frontend/src/App.tsx
-import  { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSwipeable } from 'react-swipeable';
 //import './App.css'; // Assuming you'll create this CSS file
 import Greeting from './components/Greeting';
 
@@ -14,6 +15,7 @@ function App() {
   const [current, setCurrent] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -35,15 +37,39 @@ function App() {
     fetchMessages();
   }, []);
 
-  
-useEffect(() => {
+  // Helper to reset the interval timer
+  const resetInterval = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
     if (messages.length === 0) return;
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % messages.length);
-    }, 3000); // 1000ms = 1 second
-    return () => clearInterval(interval);
-  }, [messages]);
-  
+    intervalRef.current = setInterval(() => {
+      setCurrent(prev => (prev + 1) % messages.length);
+    }, 3000);
+  }, [messages.length]);
+
+  // Set/reset interval when messages or current changes
+  useEffect(() => {
+    resetInterval();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [messages, current, resetInterval]);
+
+  // Swipe handlers that also reset the timer
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      setCurrent(prev => {
+        const next = (prev + 1) % messages.length;
+        return next;
+      });
+    },
+    onSwipedRight: () => {
+      setCurrent(prev => {
+        const next = (prev - 1 + messages.length) % messages.length;
+        return next;
+      });
+    },
+    trackMouse: true, // Optional: allows swipe with mouse for testing
+  });
 
   return (
   <>
@@ -58,13 +84,15 @@ useEffect(() => {
       {loading && <p>Loading message from backend...</p>}
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       {messages.length > 0 && (
-              <div className="flex flex-col items-center py-5">
-                <p className="text-blue-600 text-center select-none">
-                  <strong>Backend :</strong> {messages[current].content}
-                </p>
-                
-              </div>
-            )}
+        <div
+          {...swipeHandlers}
+          className="flex flex-col items-center py-5"
+        >
+          <p className="text-blue-600 text-center select-none">
+            <strong>Backend :</strong> {messages[current].content}
+          </p>
+        </div>
+      )}
     </div>
     
     
