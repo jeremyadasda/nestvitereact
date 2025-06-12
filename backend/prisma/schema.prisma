@@ -14,6 +14,23 @@ datasource db {
 }
 
 model Message {
-  id        Int      @id @default(autoincrement())
-  content   String
+  id      Int    @id @default(autoincrement())
+  content String @db.Text
+}
+
+model Servicio {
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String            @db.Text
+  ServicioContact ServicioContact[]
+}
+
+model ServicioContact {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  comment    String   @db.Text
+  servicioId Int
+  servicio   Servicio @relation(fields: [servicioId], references: [id])
+  createdAt  DateTime @default(now())
 }

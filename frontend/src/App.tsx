@@ -1,13 +1,18 @@
 // my-robust-app-frontend/src/App.tsx
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSwipeable } from 'react-swipeable';
-//import './App.css'; // Assuming you'll create this CSS file
-import Greeting from './components/Greeting';
+import Servicio from './components/Servicio';
 
 // Define an interface for the message data we expect from the backend
 interface BackendMessage {
   id: number;
   content: string;
+}
+
+interface ServicioType {
+  id: number;
+  name: string;
+  description: string;
 }
 
 function App() {
@@ -16,7 +21,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const intervalRef = useRef<number | null>(null);
-
+  const [servicios, setServicios] = useState<ServicioType[]>([]);
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -35,6 +40,20 @@ function App() {
     };
 
     fetchMessages();
+  }, []);
+
+  useEffect(() => {
+    const fetchServicios = async () => {
+      try {
+        const response = await fetch('/api/servicio');
+        if (!response.ok) throw new Error('Error fetching servicios');
+        const data: ServicioType[] = await response.json();
+        setServicios(data);
+      } catch (e: any) {
+        // Optionally handle error
+      }
+    };
+    fetchServicios();
   }, []);
 
   // Helper to reset the interval timer
@@ -103,12 +122,14 @@ function App() {
       <div className="App flex flex-col items-center justify-center flex-1">
       
       <div className='my-0 w-full'>
-        <Greeting name="Aplicaciones WEB" />
-        <Greeting name="Sistemas en la Nube AWS y Google" />
-        <Greeting name="Landing Page LOW COST" />
-        <Greeting name="Aplicaciones Moviles" />
-        <Greeting name="Automatizacion con Selenium" />
-
+        {servicios.map(servicio => (
+          <Servicio
+            key={servicio.id}
+            name={servicio.name}
+            description={servicio.description}
+            servicioId={servicio.id} // <-- pass the id here!
+          />
+        ))}
       </div>
       
     </div>
